@@ -35,6 +35,6 @@ public class ResponseMessage {
                 "\"responseCode\":" + responseCode +
                 ", \"responseMessage\":\"" + responseMessage + '\"' +
                 ", \"responseTimeStamp\":\"" + responseTimeStamp + '\"' +
-                '}';
+                "}";
     }
 }
