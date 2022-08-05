@@ -25,18 +25,21 @@ public class PaymentHandlerTest {
 
     @Test
     public void testPaymentHandler(){
-        MuRequest muRequest = PowerMockito.mock(MuRequest.class);
         MuResponse muResponse = PowerMockito.mock(MuResponse.class);
         PaymentHandler paymentHandler = new PaymentHandler();
-        muRequest.attribute(Constants.CURRENCY_CODE,"USD");
-        muRequest.attribute(Constants.AMOUNT,"10");
-        Map<String,Object> param = new LinkedHashMap<String,Object>();
-        param.put(Constants.CURRENCY_CODE,"USD");
-        param.put(Constants.AMOUNT,"10");
-        List paramList = new ArrayList();
-        paramList.add(param);
-        muRequest.parameter(paramList.toString());
-        paymentHandler.handle(muRequest,muResponse,null);
-        System.out.print(muResponse.outputStream().toString());
+        boolean result = paymentHandler.handleFlow("USD","10",muResponse);
+        assertTrue(result);
+        result = paymentHandler.handleFlow("USD","-10",muResponse);
+        assertTrue(result);
+        result = paymentHandler.handleFlow("USD","",muResponse);
+        assertFalse(result);
+        result = paymentHandler.handleFlow("","10",muResponse);
+        assertFalse(result);
+        result = paymentHandler.handleFlow("ABC","10",muResponse);
+        assertFalse(result);
+        result = paymentHandler.handleFlow("abc","10",muResponse);
+        assertFalse(result);
+        result = paymentHandler.handleFlow("USD","asd",muResponse);
+        assertFalse(result);
     }
 }

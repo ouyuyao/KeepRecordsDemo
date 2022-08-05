@@ -26,17 +26,19 @@ public class LastestPaymentHandlerTest {
 
     @Test
     public void testLastestPaymentHandler(){
-        MuRequest muRequest = PowerMockito.mock(MuRequest.class);
         MuResponse muResponse = PowerMockito.mock(MuResponse.class);
         LastestPaymentHandler lastestPaymentHandler = new LastestPaymentHandler();
-        Map<String,Object> param = new LinkedHashMap<String,Object>();
-        param.put(Constants.CURRENCY_CODE,"USD");
-        List paramList = new ArrayList();
-        paramList.add(param);
-        muRequest.parameter(paramList.toString());
-        lastestPaymentHandler.handle(muRequest,muResponse,null);
-
-        System.out.print(muResponse.outputStream().toString());
-
+        boolean result = lastestPaymentHandler.handleFlow("USD",muResponse);
+        assertTrue(result);
+        result = lastestPaymentHandler.handleFlow("JPY",muResponse); //test with net amount is 0
+        assertTrue(result);
+        result = lastestPaymentHandler.handleFlow("SGD",muResponse); //test with no data in txt
+        assertTrue(result);
+        result = lastestPaymentHandler.handleFlow("ABC",muResponse);
+        assertFalse(result);
+        result = lastestPaymentHandler.handleFlow("abc",muResponse);
+        assertFalse(result);
+        result = lastestPaymentHandler.handleFlow("",muResponse);
+        assertFalse(result);
     }
 }

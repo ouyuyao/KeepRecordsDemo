@@ -12,7 +12,7 @@
          (2)提交currency查币种所有有关的记录
 11.检查currency/amount是否有效，无效时输出错误信息
 12.写readme
-13.junit（不太熟悉muServer，所以没有有效的junit）
+13.junit（不太熟悉muServer，所以没有完全覆盖代码，但是已经做了所有的情况的assert了）
 14.使用线程是，要线程安全
 
 完成程度：
@@ -52,16 +52,16 @@ http://localhost:8088/checkLastestPayment?currencyCode=GBP
     （3）GET请求中不包含amount时，返回信息的‘responseMessage’字段值会显示“input amount invalid”
     （4）GET请求中amount的值不为有效的数字（包含正、负数）时，返回信息的‘responseMessage’字段值会显示“input amount invalid”
         以上4种的情况返回例子如下：
-        example: {'responseCode':400, 'responseMessage':'input amount invalid', 'responseTimeStamp':'202208051128272'}
-                 {'responseCode':400, 'responseMessage':'input currency code invalid', 'responseTimeStamp':'20220805112835166'}
+        example: {"responseCode":400, "responseMessage":"input amount invalid", "responseTimeStamp":"202208051128272"}
+                 {"responseCode":400, "responseMessage":"input currency code invalid", "responseTimeStamp":"20220805112835166"}
     （5）GET请求中包含currencyCode和amount，且值都是正确的情况下，会返回包含如下结果
-        example: {'responseCode':200, 'responseMessage':'the payment number is :2022080511260837514', 'responseTimeStamp':'20220805112608375'}
+        example: {"responseCode":200, "responseMessage":"the payment number is :2022080511260837514", "responseTimeStamp":"20220805112608375"}
 
 2. Server Sent Event接口，接口名/checkEvent
     （1）GET请求中不包含currencyCode时，返回信息的‘responseMessage’字段值会显示“input currency code invalid”
     （2）GET请求中currencyCode的值不为有效的币种时，返回信息的‘responseMessage’字段值会显示“input currency code invalid”
         以上2种的情况返回例子如下：
-        example: {'responseCode':400, 'responseMessage':'input currency code invalid', 'responseTimeStamp':'20220805112904937'}
+        example: {"responseCode":400, "responseMessage":"input currency code invalid", "responseTimeStamp":"20220805112904937"}
     （3）GET请求中包含currencyCode且值为有效的币种时，会返回包含如下结果
         example:  USD  1234
                   USD  1234
@@ -76,10 +76,13 @@ http://localhost:8088/checkLastestPayment?currencyCode=GBP
                   USD  0
                   USD  0
 
+            或者：{"responseCode":204, "responseMessage":"no data was be found!", "responseTimeStamp":"20220805155321318"}
+
 3. Server Sent Event接口，接口名/checkLastestPayment
     （1）GET请求中不包含currencyCode时，返回信息的‘responseMessage’字段值会显示“input currency code invalid”
     （2）GET请求中currencyCode的值不为有效的币种时，返回信息的‘responseMessage’字段值会显示“input currency code invalid”
         以上2种的情况返回例子如下：
-        example: {'responseCode':400, 'responseMessage':'input currency code invalid', 'responseTimeStamp':'20220805112904937'}
+        example: {"responseCode":400, "responseMessage":"input currency code invalid", "responseTimeStamp":"20220805112904937"}
     （3）GET请求中包含currencyCode且值为有效的币种时，会返回包含如下结果
-        example:  {'responseCode':200, 'responseMessage':'USD  2433.0', 'responseTimeStamp':'20220805113415753'}
+        example:  {"responseCode":200, "responseMessage":"USD  2433.0", "responseTimeStamp":"20220805113415753"}
+                  {"responseCode":204, "responseMessage":"no data was be found!", "responseTimeStamp":"20220805155321318"}

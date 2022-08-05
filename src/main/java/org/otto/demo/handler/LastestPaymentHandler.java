@@ -23,10 +23,12 @@ public class LastestPaymentHandler implements RouteHandler {
     public void handle(MuRequest muRequest, MuResponse muResponse, Map<String, String> map) {
         String currencyCode = muRequest.query().get(Constants.CURRENCY_CODE);
         muResponse.contentType("application/json");
-        handleFlow(currencyCode,muResponse);
+        boolean result = handleFlow(currencyCode,muResponse);
+        log.info(Constants.HANDLE_RESULT+result);
     }
 
-    public void handleFlow(final String currencyCode,final MuResponse muResponse){
+    public boolean handleFlow(final String currencyCode,final MuResponse muResponse){
+        boolean handleResult = false;
         ResponseMessage responseMessage = new ResponseMessage();
         if (!Utils.checkCurrency(currencyCode)) {
             responseMessage.setResponseCode(Constants.OPT_FAILED);
@@ -39,7 +41,7 @@ public class LastestPaymentHandler implements RouteHandler {
                 StringBuilder readResult = paymentInfoCache.readFileGetSummary(currencyCode);
                 String printData = readResult.lastIndexOf(Constants.LINE_FEED)==readResult.length()-2?readResult.substring(0,readResult.length()-2):readResult.toString();
                 if (printData.trim().length()==0){
-                    responseMessage.setResponseCode(Constants.OPT_FAILED);
+                    responseMessage.setResponseCode(Constants.NOT_RECORDS);
                     responseMessage.setResponseMessage(Constants.NO_DATA);
                     responseMessage.setResponseTimeStamp(new SimpleDateFormat(Constants.TIME_FORMATE).format(new Date()));
                     muResponse.sendChunk(responseMessage.toString());
@@ -48,6 +50,7 @@ public class LastestPaymentHandler implements RouteHandler {
                     responseMessage.setResponseMessage(printData);
                     responseMessage.setResponseTimeStamp(new SimpleDateFormat(Constants.TIME_FORMATE).format(new Date()));
                     muResponse.sendChunk(responseMessage.toString());
+                    handleResult = true;
                 }
             } catch (Exception e) {
                 responseMessage.setResponseCode(Constants.FAILED);
@@ -57,5 +60,6 @@ public class LastestPaymentHandler implements RouteHandler {
                 log.error(Constants.DATA_ISSUE + Constants.COMMON + e.getClass()+Constants.SPACE+e.getMessage());
             }
         }
+        return handleResult;
     }
 }

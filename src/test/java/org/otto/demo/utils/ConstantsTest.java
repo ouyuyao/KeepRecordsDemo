@@ -15,7 +15,8 @@ public class ConstantsTest {
         assertEquals("amount",Constants.AMOUNT);
         assertEquals("input currency code invalid",Constants.INVALID_CURRENCY_CODE);
         assertEquals("input amount invalid",Constants.INVALID_AMOUNT);
-        assertEquals(5,Constants.SCHDULE_TASK_SEC);
+        assertEquals("Handle result:",Constants.HANDLE_RESULT);
+        assertEquals(60,Constants.SCHDULE_TASK_SEC);
         assertEquals(0,Constants.SCHDULE_TASK_DELAY_SEC);
         assertEquals("yyyyMMddHHmmssS",Constants.TIME_FORMATE);
         assertEquals("the payment number is :",Constants.PAYMENT_NUM_RESPONSE);

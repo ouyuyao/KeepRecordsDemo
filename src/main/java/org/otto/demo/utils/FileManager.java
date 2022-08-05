@@ -77,16 +77,21 @@ public class FileManager {
             try {
                 br = new BufferedReader(new FileReader(file));
                 double insertAMT = 0;
+                boolean existCurrencyCode = false;
                 while ((str = br.readLine())!= null) {
                     if (str.indexOf(currencyCode)==0) {
                         String[] split = str.split(Constants.SPACE);
                         if (StringUtils.isNotBlank(split[0]) && StringUtils.isNotBlank(split[1])) {
                             insertAMT = insertAMT + Double.parseDouble(split[1]);
+                            existCurrencyCode = true;
                         }
                     }
                 }
-                readResult.append( currencyCode + "  " + String.valueOf(insertAMT) );
-                readResult.append(Constants.LINE_FEED);
+                if (existCurrencyCode){
+                    readResult.append( currencyCode + "  " + String.valueOf(insertAMT) );
+                    readResult.append(Constants.LINE_FEED);
+                }
+
             } catch (FileNotFoundException e) {
                 log.error(e.getMessage());
             }catch (IOException e) {

@@ -10,6 +10,7 @@ public class Constants {
 
     public static String INVALID_CURRENCY_CODE = "input currency code invalid";
     public static String INVALID_AMOUNT = "input amount invalid";
+    public static String HANDLE_RESULT = "Handle result:";
 
     public static int SCHDULE_TASK_SEC = 60;
     public static int SCHDULE_TASK_DELAY_SEC = 0;

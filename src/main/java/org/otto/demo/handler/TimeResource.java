@@ -36,12 +36,14 @@ public class TimeResource {
         scheduled.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                scheduleReadFileFlow();
+                boolean result = scheduleReadFileFlow();
+                log.info(Constants.HANDLE_RESULT+result);
             }
         }, Constants.SCHDULE_TASK_DELAY_SEC, Constants.SCHDULE_TASK_SEC, TimeUnit.SECONDS);
     }
 
-    public void scheduleReadFileFlow(){
+    public boolean scheduleReadFileFlow(){
+        boolean readResult = false;
         try {
             FileManager paymentInfoCache = new FileManager();
             Map<String, String> infoMap = paymentInfoCache.readFile();
@@ -63,8 +65,11 @@ public class TimeResource {
             }
             finalPrint.append("--------------").append(Constants.LINE_FEED);
             log.info(finalPrint.toString());
+            readResult = true;
         } catch (Exception e) {
             log.error(Constants.DATA_ISSUE + Constants.COMMON + e.getClass().getSimpleName());
+        }finally {
+            return readResult;
         }
     }
 }

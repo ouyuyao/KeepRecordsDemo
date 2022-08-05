@@ -23,10 +23,12 @@ public class PaymentHandler implements RouteHandler {
         String currencyCode = muRequest.query().get(Constants.CURRENCY_CODE);
         String amount = muRequest.query().get(Constants.AMOUNT);
         muResponse.contentType("application/json");
-        handleFlow(currencyCode,amount,muResponse);
+        boolean result = handleFlow(currencyCode,amount,muResponse);
+        log.info(Constants.HANDLE_RESULT+result);
     }
 
-    public void handleFlow(final String currencyCode,final String amount,final MuResponse muResponse){
+    public boolean handleFlow(final String currencyCode,final String amount,final MuResponse muResponse){
+        boolean handleResult = false;
         ResponseMessage responseMessage = new ResponseMessage();
         if (!Utils.checkCurrency(currencyCode)) {
             responseMessage.setResponseCode(Constants.OPT_FAILED);
@@ -50,6 +52,7 @@ public class PaymentHandler implements RouteHandler {
                 responseMessage.setResponseMessage(Constants.PAYMENT_NUM_RESPONSE + paymentNum);
                 responseMessage.setResponseTimeStamp(new SimpleDateFormat(Constants.TIME_FORMATE).format(new Date()));
                 muResponse.sendChunk(responseMessage.toString());
+                handleResult = true;
             } catch (Exception e) {
                 responseMessage.setResponseCode(Constants.FAILED);
                 responseMessage.setResponseMessage(Constants.SYSTEM_ERROR);
@@ -58,5 +61,6 @@ public class PaymentHandler implements RouteHandler {
                 log.error(e.getClass()+Constants.SPACE+e.getMessage());
             }
         }
+        return handleResult;
     }
 }

@@ -24,17 +24,19 @@ public class PaymentEventHandlerTest {
 
     @Test
     public void testPaymentEventHandler(){
-        MuRequest muRequest = PowerMockito.mock(MuRequest.class);
         MuResponse muResponse = PowerMockito.mock(MuResponse.class);
         PaymentEventHandler paymentEventHandler = new PaymentEventHandler();
-        Map<String,Object> param = new LinkedHashMap<String,Object>();
-        param.put(Constants.CURRENCY_CODE,"USD");
-        List paramList = new ArrayList();
-        paramList.add(param);
-        muRequest.parameter(paramList.toString());
-        paymentEventHandler.handle(muRequest,muResponse,null);
-
-        System.out.print(muResponse.outputStream().toString());
-
+        boolean result = paymentEventHandler.handleFlow("USD",muResponse);
+        assertTrue(result);
+        result = paymentEventHandler.handleFlow("JPY",muResponse); //test with net amount is 0
+        assertTrue(result);
+        result = paymentEventHandler.handleFlow("SGD",muResponse); //test with no data in txt
+        assertTrue(result);
+        result = paymentEventHandler.handleFlow("ABC",muResponse);
+        assertFalse(result);
+        result = paymentEventHandler.handleFlow("abc",muResponse);
+        assertFalse(result);
+        result = paymentEventHandler.handleFlow("",muResponse);
+        assertFalse(result);
     }
 }
