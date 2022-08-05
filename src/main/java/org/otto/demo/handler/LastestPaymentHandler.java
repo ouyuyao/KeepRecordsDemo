@@ -21,9 +21,13 @@ public class LastestPaymentHandler implements RouteHandler {
 
     @Override
     public void handle(MuRequest muRequest, MuResponse muResponse, Map<String, String> map) {
-
-        ResponseMessage responseMessage = new ResponseMessage();
         String currencyCode = muRequest.query().get(Constants.CURRENCY_CODE);
+        muResponse.contentType("application/json");
+        handleFlow(currencyCode,muResponse);
+    }
+
+    public void handleFlow(final String currencyCode,final MuResponse muResponse){
+        ResponseMessage responseMessage = new ResponseMessage();
         if (!Utils.checkCurrency(currencyCode)) {
             responseMessage.setResponseCode(Constants.OPT_FAILED);
             responseMessage.setResponseMessage(Constants.INVALID_CURRENCY_CODE);
@@ -53,6 +57,5 @@ public class LastestPaymentHandler implements RouteHandler {
                 log.error(Constants.DATA_ISSUE + Constants.COMMON + e.getClass()+Constants.SPACE+e.getMessage());
             }
         }
-
     }
 }

@@ -20,9 +20,14 @@ public class PaymentHandler implements RouteHandler {
 
     @Override
     public void handle(MuRequest muRequest, MuResponse muResponse, Map<String, String> map) {
-        ResponseMessage responseMessage = new ResponseMessage();
         String currencyCode = muRequest.query().get(Constants.CURRENCY_CODE);
         String amount = muRequest.query().get(Constants.AMOUNT);
+        muResponse.contentType("application/json");
+        handleFlow(currencyCode,amount,muResponse);
+    }
+
+    public void handleFlow(final String currencyCode,final String amount,final MuResponse muResponse){
+        ResponseMessage responseMessage = new ResponseMessage();
         if (!Utils.checkCurrency(currencyCode)) {
             responseMessage.setResponseCode(Constants.OPT_FAILED);
             responseMessage.setResponseMessage(Constants.INVALID_CURRENCY_CODE);

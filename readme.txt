@@ -63,7 +63,7 @@ http://localhost:8088/checkLastestPayment?currencyCode=GBP
         以上2种的情况返回例子如下：
         example: {'responseCode':400, 'responseMessage':'input currency code invalid', 'responseTimeStamp':'20220805112904937'}
     （3）GET请求中包含currencyCode且值为有效的币种时，会返回包含如下结果
-        example:  {'responseCode':200, 'responseMessage':'USD  1234
+        example:  USD  1234
                   USD  1234
                   USD  2
                   USD  23
@@ -74,7 +74,7 @@ http://localhost:8088/checkLastestPayment?currencyCode=GBP
                   USD  -10
                   USD  -10
                   USD  0
-                  USD  0', 'responseTimeStamp':'20220805113332712'}、
+                  USD  0
 
 3. Server Sent Event接口，接口名/checkLastestPayment
     （1）GET请求中不包含currencyCode时，返回信息的‘responseMessage’字段值会显示“input currency code invalid”

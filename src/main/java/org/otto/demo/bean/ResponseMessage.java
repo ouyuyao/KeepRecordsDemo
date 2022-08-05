@@ -32,9 +32,9 @@ public class ResponseMessage {
     @Override
     public String toString() {
         return "{" +
-                "'responseCode':" + responseCode +
-                ", 'responseMessage':'" + responseMessage + '\'' +
-                ", 'responseTimeStamp':'" + responseTimeStamp + '\'' +
+                "\"responseCode\":" + responseCode +
+                ", \"responseMessage\":\"" + responseMessage + '\"' +
+                ", \"responseTimeStamp\":\"" + responseTimeStamp + '\"' +
                 '}';
     }
 }
