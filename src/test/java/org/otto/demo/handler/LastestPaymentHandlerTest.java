@@ -33,7 +33,7 @@ public class LastestPaymentHandlerTest {
         result = lastestPaymentHandler.handleFlow("JPY",muResponse); //test with net amount is 0
         assertTrue(result);
         result = lastestPaymentHandler.handleFlow("SGD",muResponse); //test with no data in txt
-        assertTrue(result);
+        assertFalse(result);
         result = lastestPaymentHandler.handleFlow("ABC",muResponse);
         assertFalse(result);
         result = lastestPaymentHandler.handleFlow("abc",muResponse);

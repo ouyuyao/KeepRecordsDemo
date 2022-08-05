@@ -16,6 +16,6 @@ public class PaymentInfoCacheTest extends TestCase {
         infoMap.put("GBP","10");
         paymentInfoCache.writeFile(infoMap);
         Map readMap = paymentInfoCache.readFile();
-        assertEquals("2433.0",readMap.get("USD"));
+        assertEquals("2443.0",readMap.get("USD"));
     }
 }
