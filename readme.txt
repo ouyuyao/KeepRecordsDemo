@@ -16,9 +16,9 @@
 14.使用线程是，要线程安全
 
 完成程度：
+第1-6点、第8-12点、第14点均以完成
 第7点没完成，原因是不太理解需求，而且没弄懂怎么在handler里面调用ApplicationEntry.java类中初始化的MuServer对象的stop()方法
-第13点没完成，原因是对MuServer的调用机制不太理解，但junit调用handler的handle方法时，暂时未成功初始化好MuRequest、MuResponse对象
-除了这两点，其他需求点均已完成
+第13点部分完成，原因是对MuServer的调用机制不太理解，junit覆盖了80%，另外因为没有特别未测试而加上读取有问题数据的txt文本的逻辑，所以一些catch的情况没有覆盖
 
 demo结构：
 1. RunTestApplication.java    : 在test/java文件夹下，作用是本地启动demo应用时候的入口
